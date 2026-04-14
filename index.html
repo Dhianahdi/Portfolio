@@ -36,6 +36,40 @@
         <div class="warp-value" id="warp-value">▸ 1.0×</div>
     </div>
 
+    <!-- Planet Travel HUD -->
+    <div id="planet-hud">
+        <div class="system-status">SYSTEM DHIA : ONLINE</div>
+        <div class="planet-indicator active" data-planet="hero"><div class="planet-dot"></div><span class="planet-label">SOLAR CENTER</span></div>
+        <div class="planet-indicator" data-planet="expertise"><div class="planet-dot"></div><span class="planet-label">PLANÈTE CODE</span></div>
+        <div class="planet-indicator" data-planet="projects"><div class="planet-dot"></div><span class="planet-label">CORE IA</span></div>
+        <div class="planet-indicator" data-planet="experience"><div class="planet-dot"></div><span class="planet-label">EXPÉRIENCE</span></div>
+        <div class="planet-indicator" data-planet="education"><div class="planet-dot"></div><span class="planet-label">ACADEMIA</span></div>
+        <div class="planet-indicator" data-planet="contact"><div class="planet-dot"></div><span class="planet-label">STATION-C</span></div>
+    </div>
+
+    <!-- Warp Jump Visuals -->
+    <div class="warp-vignette"></div>
+
+    <!-- Orbital Radar Navigation -->
+    <div id="orbital-radar">
+        <svg viewBox="0 0 100 100" class="radar-circle">
+            <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(0,242,254,0.1)" stroke-width="0.5"/>
+            <circle cx="50" cy="50" r="32" fill="none" stroke="rgba(0,242,254,0.1)" stroke-width="0.5"/>
+            <circle cx="50" cy="50" r="16" fill="none" stroke="rgba(0,242,254,0.1)" stroke-width="0.5"/>
+            <line x1="50" y1="0" x2="50" y2="100" stroke="rgba(0,242,254,0.1)" stroke-width="0.5"/>
+            <line x1="0" y1="50" x2="100" y2="50" stroke="rgba(0,242,254,0.1)" stroke-width="0.5"/>
+            <circle id="radar-pointer" cx="50" cy="50" r="2" fill="#00f2fe"/>
+            <circle id="radar-ping" cx="50" cy="50" r="2" fill="none" stroke="#00f2fe">
+                <animate attributeName="r" from="2" to="15" dur="1.5s" repeatCount="indefinite" />
+                <animate attributeName="opacity" from="1" to="0" dur="1.5s" repeatCount="indefinite" />
+            </circle>
+        </svg>
+        <div class="radar-info">
+            <span class="radar-coord" id="radar-z">Z: 0000.0</span>
+            <span class="radar-status">SCANNING...</span>
+        </div>
+    </div>
+
     <!-- Preloader -->
     <div id="loader">
         <div class="loader-content">

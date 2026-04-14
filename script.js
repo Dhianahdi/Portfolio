@@ -1,202 +1,360 @@
-/* ============================================================
-   DHIA NAHDI PORTFOLIO — script.js v3.0 — Galaxy + 3DS Edition
-   ============================================================ */
-
 // ============================================================
-//  GALAXY WARP NAVIGATION — Full-page 3D star field
-//  Réactif au scroll : les étoiles s'accélèrent en warp speed
+//  PROXIMITY PLANET SYSTEM — Navigation wow factor
+//  Chaque section est une planète unique avec voyage interstellaire
 // ============================================================
-(function initGalaxyWarp() {
+(function initPlanetTravel() {
     const canvas = document.getElementById('galaxy-bg');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
     let W, H, cx, cy;
-
     function resize() {
         W = canvas.width  = window.innerWidth;
         H = canvas.height = window.innerHeight;
-        cx = W / 2;
-        cy = H / 2;
+        cx = W / 2; cy = H / 2;
     }
     resize();
     window.addEventListener('resize', resize);
 
-    // ---- Star pool ----
-    const NUM_STARS  = 900;
-    const SPEED_BASE = 1.8;   // cruise speed
-    const SPEED_MAX  = 28;    // max warp speed
+    // ---- Configuration ----
+    const NUM_STARS = 1500;
+    const NUM_NEBULAE = 5;
+    const BASE_SPEED = 1.2;
+    const JUMP_SPEED = 70;
+    
+    let nebulae = Array.from({ length: NUM_NEBULAE }, () => ({
+        x: (Math.random() - 0.5) * W * 2,
+        y: (Math.random() - 0.5) * H * 2,
+        r: Math.random() * 400 + 200,
+        color: `hsla(${Math.random() * 360}, 70%, 50%, 0.03)`
+    }));
 
-    const stars = Array.from({ length: NUM_STARS }, () => makeStar(true));
+    let shootingStars = [];
+    function spawnShootingStar() {
+        if (Math.random() > 0.98) {
+            shootingStars.push({
+                x: Math.random() * W,
+                y: Math.random() * H * 0.5,
+                vx: (Math.random() + 2) * 15,
+                vy: (Math.random() + 0.5) * 5,
+                len: Math.random() * 80 + 40,
+                opacity: 1
+            });
+        }
+    }
+    const planets = [
+        { id: 'hero',       name: 'SOLAR CENTER',  color: '#ff9d00', r: 255, g: 157, b: 0,   z: 0,      size: 220, detail: 'DHIA NAHDI',      type: 'sun' },
+        { id: 'expertise',  name: 'CODE PLANET',   color: '#00f2fe', r: 0,   g: 242, b: 254, z: 2500,   size: 130, detail: 'TECH STACK',      type: 'ring' },
+        { id: 'projects',   name: 'CORE AI',       color: '#a06fff', r: 160, g: 111, b: 255, z: 5000,   size: 140, detail: 'NEURAL NETWORKS', type: 'gas'  },
+        { id: 'experience', name: 'CAREER ARC',    color: '#ff9d00', r: 255, g: 157, b: 0,   z: 7500,   size: 160, detail: 'LIFE PATH',       type: 'rock', 
+          moons: [
+            { name: 'MicroZed', dist: 280, speed: 0.02, size: 30, color: '#ff2d78' },
+            { name: 'COFICAB', dist: 350, speed: 0.015, size: 25, color: '#00d4ff' },
+            { name: 'Kufferath', dist: 420, speed: 0.01, size: 20, color: '#7b2fff' }
+          ]
+        },
+        { id: 'education',  name: 'ACADEMIA',      color: '#00d4ff', r: 0,   g: 212, b: 255, z: 10000,  size: 110, detail: 'KNOWLEDGE BELT',  type: 'ice'  },
+        { id: 'contact',    name: 'STATION-C',     color: '#ffffff', r: 255, g: 255, b: 255, z: 12500,  size: 90,  detail: 'SIGNAL RELAY',    type: 'satellite'}
+    ];
 
+    let stars = Array.from({ length: NUM_STARS }, () => makeStar(true));
     function makeStar(randomZ = false) {
         return {
-            x:  (Math.random() - 0.5) * W * 2.5,
-            y:  (Math.random() - 0.5) * H * 2.5,
-            z:  randomZ ? Math.random() * W : W,
-            pz: randomZ ? Math.random() * W : W,
-            // color hue: cyan to white to faint blue
-            hue: Math.random() < 0.6 ? 190 : Math.random() < 0.5 ? 270 : 0,
+            x: (Math.random() - 0.5) * W * 3,
+            y: (Math.random() - 0.5) * H * 3,
+            z: randomZ ? Math.random() * 15000 : 15000,
+            pz: 0,
+            alpha: Math.random()
         };
     }
 
-    // ---- Scroll warp detection ----
-    let warp         = 0;        // current extra speed (decays)
-    let lastScrollY  = window.scrollY;
-    let scrollDir    = 1;        // 1 = down, -1 = up
-    let warpTarget   = 0;
+    let cameraZ = 0;
+    let targetZ = 0;
+    let isJumping = false;
+    let currentSpeed = BASE_SPEED;
 
-    window.addEventListener('scroll', () => {
-        const delta = window.scrollY - lastScrollY;
-        lastScrollY = window.scrollY;
-        scrollDir   = delta >= 0 ? 1 : -1;
-        // Intensity proportional to scroll speed
-        warpTarget  = Math.min(Math.abs(delta) * 1.6, SPEED_MAX - SPEED_BASE);
+    // ---- Smooth Navigation ----
+    document.querySelectorAll('.nav-links a, .hero-actions a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const planet = planets.find(p => p.id === targetId);
+                if (planet) {
+                    jumpToPlanet(planet.z, targetId);
+                }
+            }
+        });
     });
 
-    // ---- Section color tint per scroll position ----
-    const sectionColors = [
-        { id: 'hero',       r:  0, g: 242, b: 254 },  // cyan
-        { id: 'expertise',  r: 123, g: 47, b: 255 },  // violet
-        { id: 'projects',   r:   0, g: 242, b: 254 }, // cyan
-        { id: 'experience', r: 123, g: 47, b: 255  }, // violet
-        { id: 'education',  r:   0, g: 100, b: 255 }, // blue
-        { id: 'contact',    r: 255, g: 45, b: 120  }, // rose
-    ];
-    let tintR = 0, tintG = 200, tintB = 255;
-    let tintTargR = 0, tintTargG = 200, tintTargB = 255;
+    let rotation = 0;
+    let targetRotation = 0;
+    let ORBIT_RADIUS = W * 0.8;
 
-    function updateTint() {
-        const sy = window.scrollY + H * 0.4;
-        for (const s of sectionColors) {
-            const el = document.getElementById(s.id);
-            if (el && el.offsetTop <= sy) {
-                tintTargR = s.r; tintTargG = s.g; tintTargB = s.b;
-            }
+    window.addEventListener('resize', () => {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width = W;
+        canvas.height = H;
+        cx = W / 2;
+        cy = H / 2;
+        ORBIT_RADIUS = Math.min(W * 0.8, 1200); // Scale orbit radius safely
+    });
+
+    function jumpToPlanet(planetIndex, id) {
+        targetRotation = planetIndex * (Math.PI / 2); // Each planet is 90 deg apart
+        isJumping = true;
+        document.body.classList.add('warping');
+        
+        const hud = document.getElementById('warp-hud');
+        if (hud) {
+            hud.classList.add('active');
+            const val = document.getElementById('warp-value');
+            if (val) val.textContent = '▸ ORBITAL JUMP...';
         }
-        tintR += (tintTargR - tintR) * 0.04;
-        tintG += (tintTargG - tintG) * 0.04;
-        tintB += (tintTargB - tintB) * 0.04;
+
+        setTimeout(() => {
+            const target = document.getElementById(id);
+            if (target) {
+                target.scrollIntoView({ behavior: 'auto' });
+            }
+        }, 800);
     }
 
-    // ---- Render ----
-    let frame = 0;
+    // Sync with manual scroll
+    window.addEventListener('scroll', () => {
+        if (!isJumping) {
+            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            targetRotation = scrollPercent * (planets.length - 1) * (Math.PI / 2);
+        }
+        updateTint();
+    });
+
+    // Init Interactive HUD
+    const indicators = document.querySelectorAll('.planet-indicator');
+    indicators.forEach((ind, i) => {
+        ind.addEventListener('click', () => {
+            const planetId = ind.dataset.planet;
+            jumpToPlanet(i, planetId);
+        });
+    });
+
+    function updateTint() {
+        const currentPlanetIndex = Math.round(rotation / (Math.PI / 2));
+        const activePlanet = planets[Math.max(0, Math.min(planets.length - 1, currentPlanetIndex))];
+        
+        if (activePlanet) {
+            tintTargR = activePlanet.r; 
+            tintTargG = activePlanet.g; 
+            tintTargB = activePlanet.b;
+            updateHUD(activePlanet.id);
+        }
+        
+        tintR += (tintTargR - tintR) * 0.05;
+        tintG += (tintTargG - tintG) * 0.05;
+        tintB += (tintTargB - tintB) * 0.05;
+        document.documentElement.style.setProperty('--primary', `rgb(${tintR}, ${tintG}, ${tintB})`);
+    }
+
+    function updateHUD(activeId) {
+        const indicators = document.querySelectorAll('.planet-indicator');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        
+        indicators.forEach(ind => {
+            if (ind.dataset.planet === activeId) ind.classList.add('active');
+            else ind.classList.remove('active');
+        });
+
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === `#${activeId}`) link.classList.add('active');
+            else link.classList.remove('active');
+        });
+    }
+
+    let mouseX = 0, mouseY = 0;
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+    });
+
+    function drawPlanet(p, i) {
+        const planetAngle = i * (Math.PI / 2) - rotation;
+        const x = cx + Math.sin(planetAngle) * ORBIT_RADIUS;
+        const y = cy + Math.cos(planetAngle) * 200;
+        const zScale = (Math.cos(planetAngle) + 1.5) / 2.5;
+        const r = p.size * zScale;
+        const time = Date.now() * 0.001;
+
+        if (zScale < 0.1) return;
+
+        // ---- Constellation Flight Path (to next planet) ----
+        if (i < planets.length - 1) {
+            const nextAngle = (i + 1) * (Math.PI / 2) - rotation;
+            const nx = cx + Math.sin(nextAngle) * ORBIT_RADIUS;
+            const ny = cy + Math.cos(nextAngle) * 200;
+            const nz = (Math.cos(nextAngle) + 1.5) / 2.5;
+
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(nx, ny);
+            ctx.strokeStyle = `rgba(0, 242, 254, ${Math.min(zScale, nz) * 0.15})`;
+            ctx.setLineDash([5, 15]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        // ---- Interactive Scanning Hologram (Hover) ----
+        const dx = mouseX - x, dy = mouseY - y;
+        const distToMouse = Math.sqrt(dx*dx + dy*dy);
+        const isHovered = distToMouse < r * 1.5;
+
+        if (isHovered) {
+             ctx.strokeStyle = p.color + 'aa';
+             ctx.lineWidth = 1;
+             ctx.beginPath(); ctx.arc(x, y, r * 1.3, 0, Math.PI * 2); ctx.stroke();
+             ctx.beginPath(); ctx.arc(x, y, r * 1.4, time, time + 1); ctx.stroke();
+             
+             ctx.fillStyle = p.color;
+             ctx.font = '10px monospace';
+             ctx.fillText(`SCANNING: ${p.id.toUpperCase()}`, x + r + 10, y - r);
+             ctx.fillText(`STATUS: NOMINAL`, x + r + 10, y - r + 15);
+        }
+
+        // ---- Sun Specific: Massive Pulsing Aura ----
+        if (p.type === 'sun') {
+            const pulse = 1 + Math.sin(time * 3) * 0.12;
+            const sunGlow = ctx.createRadialGradient(x, y, r * 0.1, x, y, r * 5 * pulse);
+            sunGlow.addColorStop(0, '#ffffff'); // White hot fire
+            sunGlow.addColorStop(0.2, '#ffdd00'); // Luminous Gold
+            sunGlow.addColorStop(0.5, '#ff9d0044'); // Bright Fire Amber
+            sunGlow.addColorStop(1, 'transparent');
+            ctx.fillStyle = sunGlow;
+            ctx.beginPath(); ctx.arc(x, y, r * 5 * pulse, 0, Math.PI * 2); ctx.fill();
+        }
+
+        // ---- Planet Atmosphere/Glow ----
+        const atmosphere = ctx.createRadialGradient(x, y, r * 0.8, x, y, r * 2.8);
+        atmosphere.addColorStop(0, p.color + '66');
+        atmosphere.addColorStop(1, 'transparent');
+        ctx.fillStyle = atmosphere;
+        ctx.beginPath(); ctx.arc(x, y, r * 2.8, 0, Math.PI * 2); ctx.fill();
+
+        // ---- Special Swarm for CODE PLANET ----
+        if (p.id === 'expertise') {
+            for(let j=0; j<8; j++) {
+                const ang = time * 2 + j * (Math.PI / 4);
+                const sx = x + Math.cos(ang) * r * 1.8;
+                const sy = y + Math.sin(ang) * r * 0.6;
+                ctx.fillStyle = '#00f2fe';
+                ctx.fillRect(sx, sy, 3*zScale, 3*zScale);
+            }
+        }
+
+        // ---- Planet Body ----
+        const body = ctx.createRadialGradient(x - r*0.3, y - r*0.3, r*0.1, x, y, r);
+        if (p.type === 'sun') {
+            body.addColorStop(0, '#ffffff');
+            body.addColorStop(0.4, '#fff700');
+            body.addColorStop(1, '#ff8800');
+        } else {
+            body.addColorStop(0, '#ffffff');
+            body.addColorStop(0.3, p.color);
+            body.addColorStop(1, '#02020a');
+        }
+        ctx.fillStyle = body;
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+
+        // ---- Labels ----
+        const labelAlpha = Math.max(0, 1 - Math.abs(planetAngle) * 1.5);
+        if (labelAlpha > 0.1) {
+            ctx.save();
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = p.color;
+            ctx.fillStyle = `rgba(255, 255, 255, ${labelAlpha})`;
+            ctx.font = `800 ${zScale * 60}px Space Grotesk`;
+            ctx.textAlign = 'center';
+            ctx.fillText(p.name, x, y + r + zScale * 120);
+            ctx.restore();
+        }
+    }
+
     function animate() {
-        requestAnimationFrame(animate);
-        frame++;
-
-        // Decay warp toward target, then decay target
-        warp       += (warpTarget - warp) * 0.18;
-        warpTarget *= 0.78;
-        if (frame % 2 === 0) updateTint();
-
-        const speed = SPEED_BASE + warp;
-        const warpLevel = warp / (SPEED_MAX - SPEED_BASE); // 0..1
-
-        // Trail fade: more solid during warp (longer trails), lighter at cruise
-        const fadeAlpha = 0.12 + warpLevel * 0.25;
-        ctx.fillStyle = `rgba(1, 1, 9, ${fadeAlpha})`;
+        // Absolute Dark Void
+        ctx.fillStyle = 'rgba(0, 0, 1, 0.25)';
         ctx.fillRect(0, 0, W, H);
 
-        for (const star of stars) {
-            // Save previous projection
-            star.pz = star.z;
-
-            // Move star toward viewer
-            star.z -= speed;
-
-            // Reset when star passes viewer
-            if (star.z <= 0.5) {
-                Object.assign(star, makeStar(false));
-                continue;
+        const dist = targetRotation - rotation;
+        if (isJumping) {
+            currentSpeed = JUMP_SPEED;
+            if (Math.abs(dist) < 0.1) {
+                isJumping = false;
+                document.body.classList.remove('warping');
+                const hud = document.getElementById('warp-hud');
+                if (hud) setTimeout(() => hud.classList.remove('active'), 500);
             }
+        } else {
+            currentSpeed += (BASE_SPEED - currentSpeed) * 0.15;
+            if (currentSpeed < BASE_SPEED + 0.1) currentSpeed = BASE_SPEED;
+        }
 
-            // 2D projection
-            const sx  = (star.x / star.z)  * W + cx;
-            const sy  = (star.y / star.z)  * H + cy;
-            const spx = (star.x / star.pz) * W + cx;
-            const spy = (star.y / star.pz) * H + cy;
+        rotation += (targetRotation - rotation) * (isJumping ? 0.08 : 0.12);
 
-            // Skip if off screen
-            if (sx < -50 || sx > W + 50 || sy < -50 || sy > H + 50) {
-                Object.assign(star, makeStar(false));
-                continue;
+        // 1. Distant Nebulae (Parallax)
+        nebulae.forEach(n => {
+            n.x -= currentSpeed * 0.5; // Slower for depth
+            if (n.x < -n.r * 2) n.x = W + n.r * 2;
+            
+            const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
+            g.addColorStop(0, n.color);
+            g.addColorStop(1, 'transparent');
+            ctx.fillStyle = g;
+            ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
+        });
+
+        // 2. Stars
+        stars.forEach(s => {
+            s.x -= currentSpeed * 5;
+            if (s.x < -W) s.x = W * 2;
+
+            const sx = s.x;
+            const sy = s.y;
+            if (sx >= 0 && sx <= W) {
+                ctx.fillStyle = `rgba(0, 242, 254, ${s.alpha})`;
+                ctx.fillRect(sx, sy, 2, 2);
             }
+        });
 
-            const closeness = 1 - star.z / W; // 0 = far, 1 = very close
-            const size      = Math.max(0.3, closeness * 2.8);
-            const alpha     = Math.min(1, closeness * 1.4);
-
-            // Color: tint far stars toward section color, close stars go white
-            const blend     = Math.pow(closeness, 1.5);
-            const r = Math.round(tintR * (1 - blend) + 255 * blend);
-            const g = Math.round(tintG * (1 - blend) + 255 * blend);
-            const b = Math.round(tintB * (1 - blend) + 255 * blend);
-
-            // Draw streak (line from prev to current)
-            ctx.beginPath();
-            ctx.moveTo(spx, spy);
-            ctx.lineTo(sx, sy);
-            ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
-            ctx.lineWidth   = size;
-            ctx.lineCap     = 'round';
-            ctx.stroke();
-
-            // Bright core dot at close range
-            if (closeness > 0.6) {
+        // 3. Shooting Stars
+        spawnShootingStar();
+        shootingStars = shootingStars.filter(s => {
+            s.x += s.vx;
+            s.y += s.vy;
+            s.opacity -= 0.02;
+            
+            if (s.opacity > 0) {
                 ctx.beginPath();
-                ctx.arc(sx, sy, size * 0.8, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.9})`;
-                ctx.fill();
+                ctx.moveTo(s.x, s.y);
+                ctx.lineTo(s.x - s.len, s.y - s.len * 0.2);
+                ctx.strokeStyle = `rgba(255, 255, 255, ${s.opacity})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                return true;
             }
-        }
+            return false;
+        });
 
-        // ---- Warp vignette glow (center burst when warping) ----
-        if (warpLevel > 0.05) {
-            const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.6);
-            grd.addColorStop(0, `rgba(${Math.round(tintR)}, ${Math.round(tintG)}, ${Math.round(tintB)}, ${warpLevel * 0.08})`);
-            grd.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = grd;
-            ctx.fillRect(0, 0, W, H);
-        }
+        planets.forEach(drawPlanet);
+        requestAnimationFrame(animate);
     }
 
     animate();
-
-    // ---- Drive the Warp HUD UI ----
-    const warpHud   = document.getElementById('warp-hud');
-    const warpFill  = document.getElementById('warp-fill');
-    const warpVal   = document.getElementById('warp-value');
-    const cursorOut = document.querySelector('.cursor-outline');
-    let hudTimeout;
-
-    window.addEventListener('scroll', () => {
-        // Show HUD on scroll
-        if (warpHud) {
-            warpHud.classList.add('active');
-            clearTimeout(hudTimeout);
-            hudTimeout = setTimeout(() => warpHud.classList.remove('active'), 1200);
-        }
-    });
-
-    // Update HUD every frame via a lightweight interval
-    setInterval(() => {
-        const level = Math.min(warp / (SPEED_MAX - SPEED_BASE), 1);
-        const multiplier = (1 + level * 14).toFixed(1);
-
-        if (warpFill) warpFill.style.width = `${level * 100}%`;
-        if (warpVal)  warpVal.textContent   = `▸ ${multiplier}×`;
-
-        // Cursor warp glow
-        if (cursorOut) {
-            if (level > 0.1) {
-                cursorOut.classList.add('warping');
-            } else {
-                cursorOut.classList.remove('warping');
-            }
-        }
-    }, 50);
 })();
+
+// ============================================================
+//  DHIA NAHDI PORTFOLIO — script.js v3.0 — Galaxy + 3DS Edition
+// ============================================================
+
+// ---- THREE.JS — ENHANCED GALAXY BACKGROUND ----
 
 
 
