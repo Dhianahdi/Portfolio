@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dhia Nahdi | Full-Stack & AI Engineer</title>
+    <link rel="icon" type="image/png" href="portofolio_12486982.png">
+    <link rel="shortcut icon" href="portofolio_12486982.png">
     <meta name="description" content="Portfolio of Dhia Nahdi — Full-Stack Software Engineer & AI Integration Expert. React, Node.js, Spring Boot and intelligent systems for modern enterprises.">
     <meta name="author" content="Dhia Nahdi">
     <meta property="og:title" content="Dhia Nahdi | Full-Stack & AI Engineer">
@@ -22,6 +24,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Galaxy Warp Background — fixed full page -->
+    <canvas id="galaxy-bg"></canvas>
+
+    <!-- Warp Speed HUD -->
+    <div id="warp-hud">
+        <div class="warp-label">WARP</div>
+        <div class="warp-bar-track">
+            <div class="warp-bar-fill" id="warp-fill"></div>
+        </div>
+        <div class="warp-value" id="warp-value">▸ 1.0×</div>
+    </div>
+
     <!-- Preloader -->
     <div id="loader">
         <div class="loader-content">
@@ -73,35 +87,133 @@
                 </div>
             </div>
 
-            <!-- Right: Floating Card -->
+            <!-- Right: 3DS Console -->
             <div class="hero-right" data-aos="fade-left" data-aos-delay="200">
-                <div class="hero-card">
-                    <div class="hero-card-title">At a Glance</div>
-                    <div class="mini-stats">
-                        <div class="mini-stat">
-                            <div class="mini-stat-num">25+</div>
-                            <p>Ideas Realized</p>
-                        </div>
-                        <div class="mini-stat">
-                            <div class="mini-stat-num">1k+</div>
-                            <p>Users Impacted</p>
-                        </div>
-                        <div class="mini-stat">
-                            <div class="mini-stat-num">10k+</div>
-                            <p>Commits</p>
-                        </div>
-                        <div class="mini-stat">
-                            <div class="mini-stat-num">∞</div>
-                            <p>Passion</p>
-                        </div>
+                <!-- 3DS Model -->
+                <div class="ds3-scene">
+                    <div class="ds3-container">
+                        <div class="ds3-inner">
+                            <!-- TOP SCREEN UNIT -->
+                            <div class="ds3-top">
+                                <div class="ds3-top-face ds3-top-front">
+                                    <div class="ds3-top-bezel">
+                                        <div class="ds3-screen-area">
+                                            <div class="ds3-screen-content">
+                                                <div class="ds3-screen-scanlines"></div>
+                                                <div class="ds3-screen-ui">
+                                                    <div class="ds3-ui-topbar">
+                                                        <span class="ds3-wifi">▲▲▲</span>
+                                                        <span class="ds3-time">14:42</span>
+                                                        <span class="ds3-battery">████</span>
+                                                    </div>
+                                                    <div class="ds3-ui-content">
+                                                        <div class="ds3-terminal">
+                                                            <span class="ds3-terminal-text">&gt; System online ✓</span>
+                                                            <span class="ds3-cursor">_</span>
+                                                        </div>
+                                                        <div class="ds3-code-lines">
+                                                            <div class="ds3-code-line" style="width:70%; opacity:0.5"><span class="ds3-kw">const</span> ai = <span class="ds3-str">new</span> Engine()</div>
+                                                            <div class="ds3-code-line" style="width:85%; opacity:0.4"><span class="ds3-kw">await</span> ai.train(data)</div>
+                                                            <div class="ds3-code-line" style="width:55%; opacity:0.3"><span class="ds3-fn">deploy</span>(<span class="ds3-str">'prod'</span>)</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ds3-ui-bar">
+                                                        <div class="ds3-bar-item active">SYS</div>
+                                                        <div class="ds3-bar-item">AI</div>
+                                                        <div class="ds3-bar-item">NET</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ds3-camera-dot"></div>
+                                    </div>
+                                </div>
+                                <div class="ds3-top-face ds3-top-back"></div>
+                                <div class="ds3-top-face ds3-top-left"></div>
+                                <div class="ds3-top-face ds3-top-right"></div>
+                                <div class="ds3-top-face ds3-top-top"></div>
+                                <div class="ds3-top-face ds3-top-bottom ds3-hinge-top"></div>
+                            </div>
+
+                            <!-- HINGE -->
+                            <div class="ds3-hinge">
+                                <div class="ds3-hinge-left"></div>
+                                <div class="ds3-hinge-right"></div>
+                            </div>
+
+                            <!-- BOTTOM UNIT -->
+                            <div class="ds3-bottom">
+                                <div class="ds3-bottom-face ds3-bot-front">
+                                    <!-- D-PAD -->
+                                    <div class="ds3-dpad">
+                                        <div class="ds3-dpad-up"></div>
+                                        <div class="ds3-dpad-center"></div>
+                                        <div class="ds3-dpad-down"></div>
+                                        <div class="ds3-dpad-left"></div>
+                                        <div class="ds3-dpad-right"></div>
+                                    </div>
+                                    <!-- ANALOG STICK -->
+                                    <div class="ds3-stick"></div>
+                                    <!-- BOTTOM TOUCHSCREEN -->
+                                    <div class="ds3-touch-screen">
+                                        <div class="ds3-touch-content">
+                                            <div class="ds3-app-grid">
+                                                <div class="ds3-app react">R</div>
+                                                <div class="ds3-app node">N</div>
+                                                <div class="ds3-app ai">AI</div>
+                                                <div class="ds3-app py">PY</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- ABXY BUTTONS -->
+                                    <div class="ds3-buttons">
+                                        <div class="ds3-btn ds3-btn-a">A</div>
+                                        <div class="ds3-btn ds3-btn-b">B</div>
+                                        <div class="ds3-btn ds3-btn-x">X</div>
+                                        <div class="ds3-btn ds3-btn-y">Y</div>
+                                    </div>
+                                    <!-- START SELECT HOME -->
+                                    <div class="ds3-center-btns">
+                                        <div class="ds3-small-btn">SEL</div>
+                                        <div class="ds3-home-btn">⌂</div>
+                                        <div class="ds3-small-btn">STR</div>
+                                    </div>
+                                    <!-- SPEAKERS -->
+                                    <div class="ds3-speaker ds3-spk-left">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="ds3-speaker ds3-spk-right">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                </div>
+                                <div class="ds3-bottom-face ds3-bot-back"></div>
+                                <div class="ds3-bottom-face ds3-bot-left"></div>
+                                <div class="ds3-bottom-face ds3-bot-right"></div>
+                                <div class="ds3-bottom-face ds3-bot-top ds3-hinge-bottom"></div>
+                                <div class="ds3-bottom-face ds3-bot-bottom">
+                                    <div class="ds3-charge-port"></div>
+                                </div>
+                            </div>
+                        </div><!-- /ds3-inner -->
+
+                        <!-- Glow underneath -->
+                        <div class="ds3-shadow-glow"></div>
+                    </div><!-- /ds3-container -->
+                </div><!-- /ds3-scene -->
+
+                <!-- Floating mini stats beside the 3DS -->
+                <div class="ds3-floating-stats">
+                    <div class="ds3-stat-pill" data-aos="fade-left" data-aos-delay="400">
+                        <span class="ds3-stat-num">25+</span>
+                        <span class="ds3-stat-label">Projects</span>
                     </div>
-                    <div class="tech-pills">
-                        <span class="tech-pill">React</span>
-                        <span class="tech-pill">Node.js</span>
-                        <span class="tech-pill">NestJS</span>
-                        <span class="tech-pill">FastAPI</span>
-                        <span class="tech-pill">AI / NLP</span>
-                        <span class="tech-pill">Spring Boot</span>
+                    <div class="ds3-stat-pill" data-aos="fade-left" data-aos-delay="500">
+                        <span class="ds3-stat-num">98%</span>
+                        <span class="ds3-stat-label">AI Accuracy</span>
+                    </div>
+                    <div class="ds3-stat-pill" data-aos="fade-left" data-aos-delay="600">
+                        <span class="ds3-stat-num">10k+</span>
+                        <span class="ds3-stat-label">Commits</span>
                     </div>
                 </div>
             </div>
