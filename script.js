@@ -1112,6 +1112,10 @@ const projectsData = {
   },
 };
 
+
+
+
+
 (function initModals() {
   const modal = document.getElementById("project-modal");
   const modalBody = document.getElementById("modal-body-container");
