@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhia Nahdi | Digital Solutions Architect & AI Expert</title>
+    <meta name="description" content="Portfolio of Dhia Nahdi, Full-Stack Software Engineer & AI Integrator. Expert in React, Node.js, Spring Boot, and AI solutions.">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Animate on Scroll -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="loader">
+        <div class="loader-content">
+            <h1 class="logo">DHIA<span>.</span></h1>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <nav id="navbar">
+        <div class="container nav-content">
+            <div class="logo">DHIA<span>.</span></div>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#expertise">Expertise</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Career</a></li>
+                <li><a href="#contact" class="btn-primary-sm">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Three.js Canvas -->
+    <section id="hero">
+        <div id="mouse-glow"></div>
+        <canvas id="hero-canvas"></canvas>
+        <div class="container hero-content">
+            <div class="hero-text" data-aos="fade-up">
+                <span class="badge">Software Engineer • Tunisia</span>
+                <h1>DHIA NAHDI</h1>
+                <h2 class="gradient-text">Digital Solutions Architect &<br>AI Utilization Expert</h2>
+                <p>Passionate about digital innovation, I specialize in developing high-performance solutions and strategic AI integration for modern enterprises.</p>
+                <div class="hero-actions">
+                    <a href="#projects" class="btn-primary">Explore My Work</a>
+                    <a href="#contact" class="btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+        </div>
+    </section>
+
+    <!-- Tech Marquee Section -->
+    <div class="tech-marquee">
+        <div class="marquee-content">
+            <span>REACT</span>
+            <span>NODE.JS</span>
+            <span>NEXT.JS</span>
+            <span>NESTJS</span>
+            <span>SPRING BOOT</span>
+            <span>TYPESCRIPT</span>
+            <span>AI / NLP</span>
+            <span>FASTAPI</span>
+            <span>POSTGRESQL</span>
+            <span>MONGODB</span>
+            <!-- Repeat for seamless loop -->
+            <span>REACT</span>
+            <span>NODE.JS</span>
+            <span>NEXT.JS</span>
+            <span>NESTJS</span>
+            <span>SPRING BOOT</span>
+            <span>TYPESCRIPT</span>
+            <span>AI / NLP</span>
+            <span>FASTAPI</span>
+            <span>POSTGRESQL</span>
+            <span>MONGODB</span>
+        </div>
+    </div>
+
+    <!-- Expertise avec Tilt -->
+    <section id="expertise">
+        <div class="container">
+            <div class="section-title" data-aos="fade-right">
+                <span>Domain Expertise</span>
+                <h2>Double Spécialisation</h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card-3d" data-aos="zoom-in" data-tilt data-tilt-max="15">
+                    <div class="icon-box"><ion-icon name="code-slash-outline"></ion-icon></div>
+                    <h3>Front-End Mastery</h3>
+                    <div class="tags">
+                        <span class="tag">React / Next.js</span>
+                        <span class="tag">Angular</span>
+                        <span class="tag">Flutter</span>
+                        <span class="tag">TypeScript</span>
+                    </div>
+                </div>
+                <div class="skill-card-3d" data-aos="zoom-in" data-aos-delay="100" data-tilt data-tilt-max="15">
+                    <div class="icon-box"><ion-icon name="server-outline"></ion-icon></div>
+                    <h3>Back-End & Architecture</h3>
+                    <div class="tags">
+                        <span class="tag">Node.js / NestJS</span>
+                        <span class="tag">Spring Boot</span>
+                        <span class="tag">Symfony</span>
+                        <span class="tag">Convex JS</span>
+                    </div>
+                </div>
+                <div class="skill-card-3d" data-aos="zoom-in" data-aos-delay="200" data-tilt data-tilt-max="15">
+                    <div class="icon-box"><ion-icon name="database-outline"></ion-icon></div>
+                    <h3>AI Utilization</h3>
+                    <div class="tags">
+                        <span class="tag">Matching Engine</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">Prompt Engineering</span>
+                        <span class="tag">Data Analysis</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects avec Overlays 3D -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-title" data-aos="fade-left">
+                <span>Showcase</span>
+                <h2>Réalisations de Haut Niveau</h2>
+            </div>
+            <div class="projects-grid">
+                <!-- Project: Le Bosphore POS -->
+                <div class="project-card-3d" data-aos="fade-up" data-tilt data-tilt-scale="1.05" data-project="bosphore">
+                    <div class="project-content">
+                        <span class="badge-tech">ERP & POS Ecosystem</span>
+                        <h3>Le Bosphore POS</h3>
+                        <p>A comprehensive ERP/POS solution automating sales, inventory, and finance for retail businesses.</p>
+                        <div class="project-link">Explore Case Study <ion-icon name="arrow-forward-outline"></ion-icon></div>
+                    </div>
+                    <div class="project-glow"></div>
+                </div>
+
+                <!-- Project: Enterprise Management -->
+                <div class="project-card-3d" data-aos="fade-up" data-aos-delay="50" data-tilt data-tilt-scale="1.05" data-project="admin_system">
+                    <div class="project-content">
+                        <span class="badge-tech">Enterprise Admin</span>
+                        <h3>Enterprise & Access Shield</h3>
+                        <p>Granular permission system and multi-company configuration engine for complex infrastructures.</p>
+                        <div class="project-link">Explore Case Study <ion-icon name="arrow-forward-outline"></ion-icon></div>
+                    </div>
+                    <div class="project-glow"></div>
+                </div>
+
+                <div class="project-card-3d" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-scale="1.05" data-project="coficab">
+                    <div class="project-content">
+                        <span class="badge-tech">AI & HR</span>
+                        <h3>Smart Recruitment Matching</h3>
+                        <p>AI-powered CV parsing and candidate matching system developed for COFICAB's global HR operations.</p>
+                        <div class="project-link">Explore Case Study <ion-icon name="arrow-forward-outline"></ion-icon></div>
+                    </div>
+                    <div class="project-glow"></div>
+                </div>
+
+                <div class="project-card-3d" data-aos="fade-up" data-aos-delay="150" data-tilt data-tilt-scale="1.05" data-project="microzed">
+                    <div class="project-content">
+                        <span class="badge-tech">SaaS Architecture</span>
+                        <h3>Business Intelligence Core</h3>
+                        <p>Modular SaaS platform for MicroZed, handling thousands of real-time transactions with extreme reliability.</p>
+                        <div class="project-link">Explore Case Study <ion-icon name="arrow-forward-outline"></ion-icon></div>
+                    </div>
+                    <div class="project-glow"></div>
+                </div>
+
+                <div class="project-card-3d" data-aos="fade-up" data-aos-delay="200" data-tilt data-tilt-scale="1.05" data-project="kufferath">
+                    <div class="project-content">
+                        <span class="badge-tech">Enterprise Solutions</span>
+                        <h3>Legacy ERP Modernization</h3>
+                        <p>Redesigning core supply chain and marketing modules for Kufferath's digital transformation journey.</p>
+                        <div class="project-link">Explore Case Study <ion-icon name="arrow-forward-outline"></ion-icon></div>
+                    </div>
+                    <div class="project-glow"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Timeline -->
+    <section id="experience">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <span>Le Parcours</span>
+                <h2>Expérience Professionnelle</h2>
+            </div>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                <!-- MicroZed -->
+                <div class="timeline-node" data-aos="fade-left">
+                    <div class="node-date">August 2025 - Present</div>
+                    <div class="node-content">
+                        <h3>Full-Stack JavaScript Developer</h3>
+                        <h4>MicroZed</h4>
+                        <p>Leading the design and implementation of custom web applications. Optimized React.js front-end and Node.js backend architectures.</p>
+                    </div>
+                </div>
+                <!-- COFICAB -->
+                <div class="timeline-node" data-aos="fade-left" data-aos-delay="50">
+                    <div class="node-date">Feb 2025 - June 2025</div>
+                    <div class="node-content">
+                        <h3>AI & Web Engineering Intern</h3>
+                        <h4>COFICAB Tunisia</h4>
+                        <p>AI-based intelligent matching system for recruitment management. Stack: NestJS, Next.js, NoSQL.</p>
+                    </div>
+                </div>
+                <!-- Kufferath Freelance -->
+                <div class="timeline-node" data-aos="fade-left" data-aos-delay="100">
+                    <div class="node-date">August 2024 - Feb 2025</div>
+                    <div class="node-content">
+                        <h3>Web & AI Developer (Freelance)</h3>
+                        <h4>Kufferath Tunisia</h4>
+                        <p>ERP modules, responsive sites (Node.js/Angular), and digital marketing strategies.</p>
+                    </div>
+                </div>
+                <!-- Kufferath Intern -->
+                <div class="timeline-node" data-aos="fade-left" data-aos-delay="150">
+                    <div class="node-date">June 2024 - August 2024</div>
+                    <div class="node-content">
+                        <h3>Web Developer Intern</h3>
+                        <h4>Kufferath Tunisia</h4>
+                        <p>Training program management systems using Spring Boot and Angular.</p>
+                    </div>
+                </div>
+                <!-- SPM -->
+                <div class="timeline-node" data-aos="fade-left" data-aos-delay="200">
+                    <div class="node-date">2023</div>
+                    <div class="node-content">
+                        <h3>Web Developer Intern</h3>
+                        <h4>SPM Tunisia</h4>
+                        <p>Travel agency solution: advanced features with Angular and Node.js.</p>
+                    </div>
+                </div>
+                <!-- DOT IT -->
+                <div class="timeline-node" data-aos="fade-left" data-aos-delay="250">
+                    <div class="node-date">Academic Internship</div>
+                    <div class="node-content">
+                        <h3>Web Developer Intern</h3>
+                        <h4>DOT IT, Sousse</h4>
+                        <p>Modern reverse auction platform built with Symfony and Angular.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Education -->
+    <section id="education">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <span>Parcours Académique</span>
+                <h2>Diplômes & Formation</h2>
+            </div>
+            <div class="education-grid">
+                <div class="edu-card" data-aos="fade-up">
+                    <div class="edu-date">2025</div>
+                    <h3>Diplôme d'Ingénieur en Informatique</h3>
+                    <h4>ISAMM - Génie Logiciel</h4>
+                    <p>Institut Supérieur des Arts Multimédia de la Manouba.</p>
+                </div>
+                <div class="edu-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="edu-date">2022</div>
+                    <h3>Licence en Systèmes d'Information</h3>
+                    <h4>ISG - SIG</h4>
+                    <p>Institut Supérieur de Gestion, Tunisie.</p>
+                </div>
+                <div class="edu-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="edu-date">2019</div>
+                    <h3>Baccalauréat en Informatique</h3>
+                    <h4>Lycée Imtiyez</h4>
+                    <p>Filière Scientifique & Informatique.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Engagement -->
+    <section id="engagement">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <span>Engagement & Leadership</span>
+                <h2>Activités Extrascolaires</h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card-3d" data-aos="zoom-in">
+                    <div class="icon-box"><ion-icon name="heart-outline"></ion-icon></div>
+                    <h3>Bénévole Croissant Rouge</h3>
+                    <p>Engagement humanitaire actif au Croissant Rouge de Sidi Hssine (2021-2023).</p>
+                </div>
+                <div class="skill-card-3d" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="icon-box"><ion-icon name="people-outline"></ion-icon></div>
+                    <h3>Vice-Président Club MentorNations</h3>
+                    <p>Leadership et gestion de communauté à l'ISG (2019-2020).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats">
+        <div class="container stats-grid">
+            <div class="stat-item" data-aos="fade-up">
+                <h3 class="stat-number" data-target="5">0</h3>
+                <p>Projets IA Déployés</p>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                <h3 class="stat-number" data-target="15">0</h3>
+                <p>Solutions Full-Stack</p>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                <h3 class="stat-number" data-target="500">0</h3>
+                <p>Membres Mentored</p>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                <h3 class="stat-number" data-target="100">0</h3>
+                <p>% Commitment</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Contact -->
+    <section id="contact">
+        <div class="container">
+            <div class="cta-box" data-aos="zoom-in">
+                <h2>Ready to transform<br>your ideas into reality?</h2>
+                <div class="cta-actions" style="flex-wrap: wrap; justify-content: center;">
+                    <a href="mailto:dhia.nahdi0@gmail.com" class="btn-primary">
+                        <ion-icon name="mail-outline"></ion-icon> dhia.nahdi0@gmail.com
+                    </a>
+                    <a href="tel:+21658922374" class="btn-secondary" style="margin-left: 0;">
+                        <ion-icon name="call-outline"></ion-icon> +216 58 922 374
+                    </a>
+                    <a href="https://tn.linkedin.com/in/dhia-nahdi" target="_blank" class="btn-secondary" style="margin-left: 0;">
+                        <ion-icon name="logo-linkedin"></ion-icon> LinkedIn
+                    </a>
+                </div>
+                <!-- CV Floating Download -->
+                <a href="DhiaNahdiCVENG.pdf" download="Dhia_Nahdi_CV.pdf" class="cv-badge">
+                    <ion-icon name="cloud-download-outline"></ion-icon> Download CV
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content" style="display: flex; justify-content: space-between; align-items: center;">
+            <p>© 2026 DHIA NAHDI. Conçu pour l'excellence technique.</p>
+            <div class="social-mini" style="display: flex; gap: 1rem; font-size: 1.5rem;">
+                <a href="https://tn.linkedin.com/in/dhia-nahdi" target="_blank" style="color: var(--text-dim); transition: 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dim)'"><ion-icon name="logo-linkedin"></ion-icon></a>
+                <a href="mailto:dhia.nahdi0@gmail.com" style="color: var(--text-dim); transition: 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dim)'"><ion-icon name="mail-outline"></ion-icon></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal Overlay -->
+    <div id="project-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close"><ion-icon name="close-outline"></ion-icon></button>
+            <div class="modal-body" id="modal-body-container">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts pour l'effet WOW -->
+    <!-- Three.js for bg particles -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Vanilla Tilt for 3D Cards -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <!-- AOS for reveal -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
