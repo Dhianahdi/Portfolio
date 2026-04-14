@@ -2390,27 +2390,47 @@ footer p {
    ============================================================ */
 #planet-hud {
     position: fixed;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 100;
     pointer-events: auto;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 3rem;
-    padding: 15px 40px;
-    background: rgba(1, 1, 9, 0.4);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2.2rem;
+    padding: 40px 25px;
+    background: rgba(1, 1, 9, 0.45);
     backdrop-filter: blur(15px);
-    border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 40px;
+    border: 1px solid rgba(0, 242, 254, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Timeline Vertical Line */
+#planet-hud::before {
+    content: '';
+    position: absolute;
+    left: 29px; /* Centered with dots */
+    top: 60px;
+    bottom: 60px;
+    width: 2px;
+    background: linear-gradient(to bottom, 
+        rgba(0, 242, 254, 0), 
+        rgba(0, 242, 254, 0.3), 
+        rgba(0, 242, 254, 0.1),
+        rgba(0, 242, 254, 0.3),
+        rgba(0, 242, 254, 0)
+    );
+    z-index: -1;
 }
 
 .system-status {
     position: absolute;
-    top: -25px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: -40px;
+    left: 0;
+    transform: rotate(-90deg);
+    transform-origin: left bottom;
     font-family: monospace;
     font-size: 0.5rem;
     color: var(--primary);
@@ -2427,22 +2447,68 @@ footer p {
     animation: pulse 1s infinite;
 }
 
+.planet-indicator {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.planet-indicator:hover, .planet-indicator.active {
+    opacity: 1;
+}
+
+.planet-dot {
+    width: 10px;
+    height: 10px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.planet-indicator.active .planet-dot {
+    background: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px var(--primary), 0 0 40px rgba(0, 242, 254, 0.2);
+    transform: scale(1.3);
+}
+
+/* Inner Core for active node */
+.planet-indicator.active .planet-dot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.planet-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+.planet-indicator.active .planet-label {
+    color: #fff;
+    font-weight: 800;
+    text-shadow: 0 0 10px var(--primary);
+    transform: translateX(5px);
+}
+
 /* ============================================================
    ORBITAL RADAR
    ============================================================ */
-#orbital-radar {
-    position: fixed;
-    bottom: 2rem;
-    left: 2rem;
-    width: 120px;
-    height: 120px;
-    z-index: 1000;
-    pointer-events: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: radial-gradient(circle, rgba(0, 242, 254, 0.05) 0%, transparent 70%);
-}
+#orbital-radar { display: none; }
 
 .radar-circle {
     width: 100%;
