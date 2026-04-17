@@ -1405,28 +1405,44 @@ footer p {
 }
 
 .modal-content {
-    background: #0a0a10;
-    border: 1px solid rgba(0, 242, 254, 0.2);
+    background: rgba(10, 10, 16, 0.98);
+    border: 1px solid rgba(0, 242, 254, 0.3);
     border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 900px;
-    max-height: 88vh;
-    overflow-y: auto;
+    width: 95%;
+    max-width: 940px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
     position: relative;
-    transform: translateY(40px) scale(0.97);
+    transform: translateY(30px);
+    opacity: 0;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 40px rgba(0,242,254,0.1);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.9), 0 0 50px rgba(0,242,254,0.1);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    z-index: 2001;
 }
 
-.modal-content::-webkit-scrollbar { width: 4px; }
-.modal-content::-webkit-scrollbar-track { background: transparent; }
-.modal-content::-webkit-scrollbar-thumb {
+.modal-body {
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
+    padding-bottom: 2rem;
+}
+
+.modal-body::-webkit-scrollbar { width: 4px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb {
     background: linear-gradient(var(--primary), var(--accent));
     border-radius: 10px;
 }
 
+/* Scrollbar removed from here as it moved to .modal-body */
+
 .modal-overlay.active .modal-content {
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .modal-close {
@@ -1465,9 +1481,11 @@ footer p {
 
 .modal-header p {
     color: var(--text-dim);
-    font-size: 1.02rem;
+    font-size: 1rem;
     line-height: 1.7;
-    max-width: 650px;
+    max-width: 700px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .modal-body-content {
@@ -1501,8 +1519,10 @@ footer p {
     background: rgba(255,255,255,0.02);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-sm);
-    border-left: 2px solid var(--primary);
+    border-left: 3px solid var(--primary);
     font-size: 0.95rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .modal-body-content li strong { color: var(--primary); font-weight: 700; }
@@ -1544,6 +1564,9 @@ footer p {
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .cta-box { padding: 3.5rem 3rem; }
     .cta-box h2 { font-size: 3rem; }
+
+    /* Hide HUDs on Tablets and Mobile */
+    #planet-hud, #orbital-radar { display: none !important; }
 }
 
 @media (max-width: 768px) {
@@ -1563,12 +1586,38 @@ footer p {
     .cta-box { padding: 3rem 1.5rem; }
     .cta-box h2 { font-size: 2.2rem; }
 
-    .modal-header { padding: 2rem 1.5rem 1.5rem; }
-    .modal-body-content { padding: 1.5rem; }
-    .modal-header h2 { font-size: 1.8rem; }
+    /* Modal Responsiveness Improvements */
+    .modal-overlay { padding: 0.75rem; align-items: flex-end; } /* Dock to bottom on mobile for easier reach */
+    .modal-content { 
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 90vh !important; 
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        transform: translateY(100%);
+        margin: 0;
+    }
+    .modal-body { padding-bottom: calc(4rem + env(safe-area-inset-bottom)); }
+    .modal-overlay.active .modal-content { transform: translateY(0); }
+    
+    .modal-header { padding: 3.5rem 1.2rem 1.5rem; } /* Extra top padding for close button */
+    .modal-body-content { padding: 1.2rem; }
+    .modal-header h2 { font-size: 1.7rem; margin-top: 0.5rem; line-height: 1.2; }
+    .modal-header p { font-size: 0.9rem; line-height: 1.6; }
+    .modal-close { top: 0.75rem; right: 0.75rem; width: 38px; height: 38px; font-size: 1.3rem; background: rgba(0,0,0,0.5); }
+    .modal-body-content li { padding: 0.75rem 1rem; font-size: 0.85rem; line-height: 1.5; }
+    .modal-tech-stack { padding-top: 1.2rem; margin-top: 1.2rem; gap: 0.4rem; }
+    .modal-tech-stack .tag { padding: 0.25rem 0.6rem; font-size: 0.7rem; }
 
     nav .nav-links { display: none; }
     .footer-content { flex-direction: column; gap: 1rem; text-align: center; }
+}
+
+@media (max-width: 480px) {
+    .modal-overlay { padding: 0; } /* Edge to edge on smallest phones */
+    .modal-content { max-height: 90vh; }
+    .modal-header h2 { font-size: 1.4rem; }
+    .modal-header p { font-size: 0.85rem; }
+    .modal-body-content h4 { font-size: 0.95rem; margin-top: 1.2rem; }
 }
 
 /* ============================================================
@@ -2592,96 +2641,8 @@ nav {
     color: var(--primary);
 }
 
-/* ============================================================
-   TACTORIAL MODAL — Space Terminal Design
-   ============================================================ */
-.modal {
-    background: rgba(0, 0, 4, 0.95);
-    backdrop-filter: blur(25px);
-}
+/* Consolidating styles... removed duplicate block */
 
-.modal-content {
-    background: rgba(1, 1, 9, 0.9);
-    border: 1px solid rgba(0, 242, 254, 0.3);
-    border-radius: 20px;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 242, 254, 0.05);
-    position: relative;
-    padding: 3rem;
-    max-height: 85vh;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary) transparent;
-}
-
-/* Custom Tactical Scrollbar */
-.modal-content::-webkit-scrollbar {
-    width: 6px;
-}
-.modal-content::-webkit-scrollbar-track {
-    background: transparent;
-}
-.modal-content::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: 10px;
-    box-shadow: 0 0 10px var(--primary);
-}
-
-/* Modal Hologram scanlines */
-.modal-content::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    background-size: 100% 4px, 3px 100%;
-    pointer-events: none;
-    z-index: 10;
-    opacity: 0.3;
-}
-
-.modal-content::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100px;
-    background: linear-gradient(to bottom, rgba(0, 242, 254, 0.1), transparent);
-    animation: scanPulse 3s infinite;
-}
-
-@keyframes scanPulse {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(600%); }
-}
-
-.close-modal {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
-    width: 45px;
-    height: 45px;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    transition: all 0.3s ease;
-}
-
-.close-modal:hover {
-    background: #ff2d78;
-    transform: rotate(90deg);
-}
-
-.modal-body h2 {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    color: var(--primary);
-    margin-bottom: 1.5rem;
-    letter-spacing: 2px;
-}
-
-.modal-desc {
-    color: rgba(255, 255, 255, 0.8);
-    line-height: 1.8;
-}
 
 /* Deep Space Theme Overrides */
 body { background-color: #000004; }
@@ -2782,20 +2743,25 @@ body.warping section {
 @media (max-width: 768px) {
     nav { height: 60px; }
     .nav-links { display: none; }
-    .nintendo-3ds { transform: scale(0.6) rotateX(15deg) rotateY(-15deg) !important; margin-left: 0; }
-    .hero-content { grid-template-columns: 1fr; padding-top: 5rem; }
-    #planet-hud { bottom: 20px; gap: 1rem; padding: 10px 20px; width: 90%; justify-content: space-around; gap: 0; }
-    .planet-label { display: none !important; }
-    .planet-dot { width: 6px; height: 6px; }
+    .ds3-container { transform: scale(0.6) rotateX(15deg) rotateY(-15deg) !important; margin: 2rem 0; width: 100%; max-width: 320px; }
+    .hero-content { grid-template-columns: 1fr; padding-top: 5rem; text-align: center; }
+    .hero-text { display: flex; flex-direction: column; align-items: center; }
+    .hero-text p { margin-left: auto; margin-right: auto; }
+    .hero-actions { justify-content: center; }
+    
+    #planet-hud { display: none; }
     #orbital-radar { display: none; }
-    #warp-hud { top: 20px; right: 20px; transform: scale(0.8); }
-    .section-title h2 { font-size: 2.2rem; }
-    .hero-text h1 { font-size: 3rem; }
+    #warp-hud { 
+        top: 80px; 
+        right: 10px; 
+        transform: scale(0.7); 
+        transform-origin: top right;
+    }
 }
 
 /* --- Tablets (769px to 1200px) --- */
 @media (min-width: 769px) and (max-width: 1200px) {
-    .nintendo-3ds { transform: scale(0.8) rotateX(15deg) rotateY(-15deg) !important; }
+    .ds3-container { transform: scale(0.8) rotateX(15deg) rotateY(-15deg) !important; }
     .nav-links a { font-size: 0.7rem; padding: 0.4rem; }
-    #planet-hud { gap: 2rem; }
+    #planet-hud { gap: 1.5rem; }
 }
